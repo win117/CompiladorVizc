@@ -58,6 +58,10 @@ public class Compilador extends javax.swing.JFrame {
     }
 
     private void init() {
+        setSize(720, 320);
+        jPanel1.setVisible(false);
+        jPanel2.setVisible(false);
+        
         ts = new TablaSimbolos();
         contadorErrores = 0;
         //titulo y forma de guardado de archivo,centrado de ventana
@@ -107,10 +111,12 @@ public class Compilador extends javax.swing.JFrame {
         rootPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtpCode = new javax.swing.JTextPane();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jtaOutputConsole = new javax.swing.JTextArea();
+        jPanel1 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tblTokens = new javax.swing.JTable();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jtaOutputConsole = new javax.swing.JTextArea();
         jMenuBar1 = new javax.swing.JMenuBar();
         btnNuevo = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -119,7 +125,7 @@ public class Compilador extends javax.swing.JFrame {
         btnGuardarC = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
         btnCompilar = new javax.swing.JMenu();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        AnalisisLexico = new javax.swing.JMenuItem();
         btnEjecutar = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
@@ -128,12 +134,6 @@ public class Compilador extends javax.swing.JFrame {
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
 
         jScrollPane1.setViewportView(jtpCode);
-
-        jtaOutputConsole.setEditable(false);
-        jtaOutputConsole.setBackground(new java.awt.Color(255, 255, 255));
-        jtaOutputConsole.setColumns(20);
-        jtaOutputConsole.setRows(5);
-        jScrollPane2.setViewportView(jtaOutputConsole);
 
         tblTokens.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -154,31 +154,71 @@ public class Compilador extends javax.swing.JFrame {
         tblTokens.getTableHeader().setReorderingAllowed(false);
         jScrollPane3.setViewportView(tblTokens);
 
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 468, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jtaOutputConsole.setEditable(false);
+        jtaOutputConsole.setBackground(new java.awt.Color(255, 255, 255));
+        jtaOutputConsole.setColumns(20);
+        jtaOutputConsole.setRows(5);
+        jScrollPane2.setViewportView(jtaOutputConsole);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout rootPanelLayout = new javax.swing.GroupLayout(rootPanel);
         rootPanel.setLayout(rootPanelLayout);
         rootPanelLayout.setHorizontalGroup(
             rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(rootPanelLayout.createSequentialGroup()
                 .addGap(12, 12, 12)
-                .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 693, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(rootPanelLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 693, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 403, Short.MAX_VALUE)
-                .addGap(23, 23, 23))
+                .addGap(18, 18, 18)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         rootPanelLayout.setVerticalGroup(
             rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(rootPanelLayout.createSequentialGroup()
                 .addGap(26, 26, 26)
-                .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addGroup(rootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(rootPanelLayout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         getContentPane().add(rootPanel);
@@ -224,13 +264,13 @@ public class Compilador extends javax.swing.JFrame {
 
         btnCompilar.setText("Compilar");
 
-        jMenuItem2.setText("Analisis Lexico");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        AnalisisLexico.setText("Analisis Lexico");
+        AnalisisLexico.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                AnalisisLexicoActionPerformed(evt);
             }
         });
-        btnCompilar.add(jMenuItem2);
+        btnCompilar.add(AnalisisLexico);
 
         btnEjecutar.setText("Ejecutar");
         btnEjecutar.addActionListener(new java.awt.event.ActionListener() {
@@ -309,8 +349,11 @@ public class Compilador extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnEjecutarActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+    private void AnalisisLexicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AnalisisLexicoActionPerformed
         // TODO add your handling code here:
+        setSize(1210, 400);
+        jPanel1.setVisible(true);
+        jPanel2.setVisible(true);
 
         //Si el nombre del editor tiene * o nombre original
         if (getTitle().contains("*") || getTitle().equals(title)) {
@@ -323,7 +366,7 @@ public class Compilador extends javax.swing.JFrame {
             //SI ya se havia creado guardar
             compile();
         }
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    }//GEN-LAST:event_AnalisisLexicoActionPerformed
 
     private void jMenu1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MousePressed
         ts.setVisible(true);
@@ -395,14 +438,17 @@ public class Compilador extends javax.swing.JFrame {
                 //Agregamos tokens a errores
                 if (token.getLexicalComp().equals("ERROR")) {
                     contadorErrores++;
+                    System.out.println("ERRORZASO: " + token.getLexeme());
                 }
 
                 if (token.getLexicalComp().equals("Error_1")) {
                     contadorErrores++;
+                    System.out.println("ERRORZASO: " + token.getLexeme());
                 }
 
                 if (token.getLexicalComp().equals("Error_2")) {
                     contadorErrores++;
+                    System.out.println("ERRORZASO: " + token.getLexeme());
                 }
             }
 
@@ -548,6 +594,7 @@ public class Compilador extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem AnalisisLexico;
     private javax.swing.JMenuItem btnAbrir;
     private javax.swing.JMenu btnCompilar;
     private javax.swing.JMenuItem btnEjecutar;
@@ -557,9 +604,10 @@ public class Compilador extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;

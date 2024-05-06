@@ -79,6 +79,7 @@ int | bigInt | real | bigReal | text | color | bool  {return token(yytext(), "Ti
 /* Signos de puntuacion*/
 "," {return token(yytext(), "Coma", yyline, yycolumn);}
 ";" {return token(yytext(), "Punto_Coma", yyline, yycolumn);}
+":" {return token(yytext(), "Dos_Puntos", yyline, yycolumn);}
 
 /* Operadores aritmeticos */
 
@@ -122,6 +123,7 @@ PrintConsole {return token(yytext(), "Print_Console", yyline, yycolumn);}
 Array {return token(yytext(), "Arreglo", yyline, yycolumn);}
 True {return token(yytext(), "Verdadero", yyline, yycolumn);}
 False {return token(yytext(), "Falso", yyline, yycolumn);}
+default {return token(yytext(), "Default", yyline, yycolumn);}
 
 /* Ciclo */
 
