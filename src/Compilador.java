@@ -115,6 +115,7 @@ public class Compilador extends javax.swing.JFrame {
         btnAbrir = new javax.swing.JMenuItem();
         btnGuardar = new javax.swing.JMenuItem();
         btnGuardarC = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
         btnCompilar = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         btnEjecutar = new javax.swing.JMenuItem();
@@ -207,6 +208,15 @@ public class Compilador extends javax.swing.JFrame {
         btnGuardarC.setText("Guardar como");
         btnNuevo.add(btnGuardarC);
 
+        jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem4.setText("Salir del programa");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        btnNuevo.add(jMenuItem4);
+
         jMenuBar1.add(btnNuevo);
 
         btnCompilar.setText("Compilar");
@@ -297,6 +307,12 @@ public class Compilador extends javax.swing.JFrame {
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        //Salir del programa
+        directorio.Exit();
+        System.exit(0);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void compile() {
         //Hace las fases de alalisis, tokents,sementico e imprime
@@ -474,6 +490,7 @@ public class Compilador extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
