@@ -1,5 +1,4 @@
 
-
 //Importaciones
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import compilerTools.CodeBlock;
@@ -27,6 +26,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -45,26 +45,27 @@ public class Compilador extends javax.swing.JFrame {
     private HashMap<String, Object[]> identificadores;//Guardar identificadores
     private boolean codeHasBeenCompiled = false;//Dice si el codigo se ha compilado
 
+    private TablaSimbolos ts;
+
     private int contadorErrores;
-    
-    
+
     /**
      * Creates new form Compilador
      */
-    
     public Compilador() {
         initComponents();
         init();
     }
 
     private void init() {
+        ts = new TablaSimbolos();
         contadorErrores = 0;
         //titulo y forma de guardado de archivo,centrado de ventana
         title = "Compilador";
         setLocationRelativeTo(null);
         setTitle(title);
         directorio = new Directory(this, jtpCode, title, ".vizc");
-        
+
         //Metodo para salir del programa
         addWindowListener(new WindowAdapter() {
             @Override
@@ -81,7 +82,7 @@ public class Compilador extends javax.swing.JFrame {
             timerKeyReleased.stop();
             colorAnalysis();
         });
-        
+
         //Metodo que pone un  * en el nombre de la vetana al editar.
         Functions.insertAsteriskInName(this, jtpCode, () -> {
             timerKeyReleased.restart();
@@ -92,7 +93,7 @@ public class Compilador extends javax.swing.JFrame {
         textsColor = new ArrayList<>();
         identProd = new ArrayList<>();
         identificadores = new HashMap<>();
-        
+
         //Pone un autocompletado en el editor de codigo al dar ctrol+space
         Functions.setAutocompleterJTextComponent(new String[]{/*Palabras clave de autocompletado*/}, jtpCode, () -> {
             timerKeyReleased.restart();
@@ -121,6 +122,7 @@ public class Compilador extends javax.swing.JFrame {
         jMenuItem2 = new javax.swing.JMenuItem();
         btnEjecutar = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
@@ -248,6 +250,14 @@ public class Compilador extends javax.swing.JFrame {
 
         jMenuBar1.add(btnCompilar);
 
+        jMenu1.setText("Tabla de Símbolos");
+        jMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jMenu1MousePressed(evt);
+            }
+        });
+        jMenuBar1.add(jMenu1);
+
         setJMenuBar(jMenuBar1);
 
         pack();
@@ -261,32 +271,26 @@ public class Compilador extends javax.swing.JFrame {
 
     private void btnAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirActionPerformed
         // TODO add your handling code here:
-                //Si pudo abrir el archivo 
+        //Si pudo abrir el archivo 
         if (directorio.Open()) {
             colorAnalysis();
             clearFields();
         }
     }//GEN-LAST:event_btnAbrirActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        // TODO add your handling code here:
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        //Salir del programa
+        directorio.Exit();
+        System.exit(0);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
-        //Si el nombre del editor tiene * o nombre original
-        if (getTitle().contains("*") || getTitle().equals(title)) {
-           //Guardamos
-            if (directorio.Save()) {
-                //Compilamos
-                compile();
-            }
-        } else {
-            //SI ya se havia creado guardar
-            compile();
-        }
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void btnEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEjecutarActionPerformed
         // TODO add your handling code here:
-              //Click en compilar
+        //Click en compilar
         btnCompilar.doClick();
         //Si el codigo se ha compilado
         if (codeHasBeenCompiled) {
@@ -305,15 +309,26 @@ public class Compilador extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnEjecutarActionPerformed
 
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        //Salir del programa
-        directorio.Exit();
-        System.exit(0);
-    }//GEN-LAST:event_jMenuItem4ActionPerformed
+        //Si el nombre del editor tiene * o nombre original
+        if (getTitle().contains("*") || getTitle().equals(title)) {
+            //Guardamos
+            if (directorio.Save()) {
+                //Compilamos
+                compile();
+            }
+        } else {
+            //SI ya se havia creado guardar
+            compile();
+        }
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenu1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MousePressed
+        ts.setVisible(true);
+        ts.setLocation(this.getWidth(), this.getY());
+    }//GEN-LAST:event_jMenu1MousePressed
 
     private void compile() {
         //Hace las fases de alalisis, tokents,sementico e imprime
@@ -328,7 +343,7 @@ public class Compilador extends javax.swing.JFrame {
     }
 
     private void lexicalAnalysis() {
-        
+
         Lexer lexer;
         try {
             //Archivo que se mandara como entrada
@@ -343,7 +358,7 @@ public class Compilador extends javax.swing.JFrame {
             BufferedReader entrada = new BufferedReader(new InputStreamReader(new FileInputStream(codigo), "UTF8"));
             //Mandamos la entrada a la variable lexer 
             lexer = new Lexer(entrada);
-            
+
             while (true) {
                 //Retorna cada token dentro del while hasta null
                 Token token = lexer.yylex();
@@ -352,20 +367,51 @@ public class Compilador extends javax.swing.JFrame {
                 }
                 //Agregamos tokents al arrayList
                 tokens.add(token);
-                
+
+                if (token.getLexicalComp().equals("Identificador")) {
+                    String nombre = token.getLexeme();
+                    String lineaD = "Sin definir";
+                    String lineas = token.getLine() + "";
+                    String tipo = "Sin definir";
+                    String size = "Sin definir";
+
+                    Object[] datos = identificadores.get(token.getLexeme());
+                    if (datos == null) {
+
+                        Object[] data = new Object[5];
+                        data[0] = nombre;
+                        data[1] = lineaD;
+                        data[2] = lineas;
+                        data[3] = tipo;
+                        data[4] = size;
+
+                        identificadores.put(token.getLexeme(), data);
+
+                    } else {
+                        datos[2] += "," + lineas;
+                    }
+                }
+
                 //Agregamos tokens a errores
-                if(token.getLexicalComp().equals("ERROR")) {
+                if (token.getLexicalComp().equals("ERROR")) {
                     contadorErrores++;
                 }
-                
-                if(token.getLexicalComp().equals("Error_1")) {
+
+                if (token.getLexicalComp().equals("Error_1")) {
                     contadorErrores++;
                 }
-                
-                if(token.getLexicalComp().equals("Error_2")) {
+
+                if (token.getLexicalComp().equals("Error_2")) {
                     contadorErrores++;
                 }
             }
+
+            DefaultTableModel model = (DefaultTableModel) ts.getTable().getModel();
+            for (Object[] value : identificadores.values()) {
+                model.addRow(value);
+            }
+            
+
         } catch (FileNotFoundException ex) {
             System.out.println("El archivo no pudo ser encontrado... " + ex.getMessage());
         } catch (IOException ex) {
@@ -374,7 +420,7 @@ public class Compilador extends javax.swing.JFrame {
     }
 
     private void syntacticAnalysis() {
-        
+
         //Objeto de tipo gramar, arreglo de tokents y errores
         Grammar gramatica = new Grammar(tokens, errors);
         //Muestra las graaticas
@@ -387,7 +433,7 @@ public class Compilador extends javax.swing.JFrame {
     private void colorAnalysis() {
         //Limpia el arrayList
         textsColor.clear();
-        
+
         LexerColor lexerColor;
         try {
             File codigo = new File("color.encrypter");
@@ -438,7 +484,7 @@ public class Compilador extends javax.swing.JFrame {
             jtaOutputConsole.setText("Compilación terminada...\n" + strErrors + "\nLa compilación terminó con errores...");
         } else {
             //Código provicional de contador de rrores
-            if(contadorErrores != 0) {
+            if (contadorErrores != 0) {
                 jtaOutputConsole.setText("Compilación terminada con errores");
             } else {
                 jtaOutputConsole.setText("Compilación terminada sin errores");
@@ -458,6 +504,7 @@ public class Compilador extends javax.swing.JFrame {
         identProd.clear();
         identificadores.clear();
         codeHasBeenCompiled = false;
+        Functions.clearDataInTable(ts.getTable());
     }
 
     /**
@@ -507,6 +554,7 @@ public class Compilador extends javax.swing.JFrame {
     private javax.swing.JMenuItem btnGuardar;
     private javax.swing.JMenuItem btnGuardarC;
     private javax.swing.JMenu btnNuevo;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
