@@ -42,7 +42,7 @@ public class Compilador extends javax.swing.JFrame {
     private ArrayList<TextColor> textsColor;//Colores de palabras reservadas
     private Timer timerKeyReleased;
     private ArrayList<Production> identProd;//Extraer identificadores
-    private HashMap<String, String> identificadores;//Guardar identificadores
+    private HashMap<String, Object[]> identificadores;//Guardar identificadores
     private boolean codeHasBeenCompiled = false;//Dice si el codigo se ha compilado
 
     
