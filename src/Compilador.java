@@ -45,6 +45,9 @@ public class Compilador extends javax.swing.JFrame {
     private HashMap<String, String> identificadores;//Guardar identificadores
     private boolean codeHasBeenCompiled = false;//Dice si el codigo se ha compilado
 
+    
+    
+    
     /**
      * Creates new form Compilador
      */
@@ -115,6 +118,7 @@ public class Compilador extends javax.swing.JFrame {
         btnCompilar = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         btnEjecutar = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
@@ -177,6 +181,7 @@ public class Compilador extends javax.swing.JFrame {
 
         btnNuevo.setText("Archivo");
 
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         jMenuItem1.setText("Nuevo");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -185,6 +190,7 @@ public class Compilador extends javax.swing.JFrame {
         });
         btnNuevo.add(jMenuItem1);
 
+        btnAbrir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         btnAbrir.setText("Abrir");
         btnAbrir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -193,9 +199,11 @@ public class Compilador extends javax.swing.JFrame {
         });
         btnNuevo.add(btnAbrir);
 
+        btnGuardar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         btnGuardar.setText("Guardar");
         btnNuevo.add(btnGuardar);
 
+        btnGuardarC.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
         btnGuardarC.setText("Guardar como");
         btnNuevo.add(btnGuardarC);
 
@@ -203,7 +211,7 @@ public class Compilador extends javax.swing.JFrame {
 
         btnCompilar.setText("Compilar");
 
-        jMenuItem2.setText("Compilar");
+        jMenuItem2.setText("Analisis Lexico");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem2ActionPerformed(evt);
@@ -218,6 +226,14 @@ public class Compilador extends javax.swing.JFrame {
             }
         });
         btnCompilar.add(btnEjecutar);
+
+        jMenuItem3.setText("Analisis Sintactico");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        btnCompilar.add(jMenuItem3);
 
         jMenuBar1.add(btnCompilar);
 
@@ -243,8 +259,8 @@ public class Compilador extends javax.swing.JFrame {
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         // TODO add your handling code here:
-        
-            //Si el nombre del editor tiene * o nombre original
+
+        //Si el nombre del editor tiene * o nombre original
         if (getTitle().contains("*") || getTitle().equals(title)) {
            //Guardamos
             if (directorio.Save()) {
@@ -277,6 +293,10 @@ public class Compilador extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnEjecutarActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void compile() {
         //Hace las fases de alalisis, tokents,sementico e imprime
@@ -453,6 +473,7 @@ public class Compilador extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
