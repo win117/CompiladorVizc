@@ -41,7 +41,7 @@ NumeroColor = [0-9]{1,3}
 {Comentario}|{EspacioEnBlanco} { /*Ignorar*/ }
 
 /*Texto*/
-\"({Digito}|{Letra})*\" {return token(yytext(), "Texto", yyline, yycolumn);}
+\".*\" {return token(yytext(), "Texto", yyline, yycolumn);}
 
 /* Identificador */
 \${Identificador} {return token(yytext(), "Identificador", yyline, yycolumn);}
