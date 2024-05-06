@@ -45,7 +45,7 @@ public class Compilador extends javax.swing.JFrame {
     private HashMap<String, Object[]> identificadores;//Guardar identificadores
     private boolean codeHasBeenCompiled = false;//Dice si el codigo se ha compilado
 
-    
+    private int contadorErrores;
     
     
     /**
@@ -58,6 +58,7 @@ public class Compilador extends javax.swing.JFrame {
     }
 
     private void init() {
+        contadorErrores = 0;
         //titulo y forma de guardado de archivo,centrado de ventana
         title = "Compilador";
         setLocationRelativeTo(null);
@@ -351,6 +352,19 @@ public class Compilador extends javax.swing.JFrame {
                 }
                 //Agregamos tokents al arrayList
                 tokens.add(token);
+                
+                //Agregamos tokens a errores
+                if(token.getLexicalComp().equals("ERROR")) {
+                    contadorErrores++;
+                }
+                
+                if(token.getLexicalComp().equals("Error_1")) {
+                    contadorErrores++;
+                }
+                
+                if(token.getLexicalComp().equals("Error_2")) {
+                    contadorErrores++;
+                }
             }
         } catch (FileNotFoundException ex) {
             System.out.println("El archivo no pudo ser encontrado... " + ex.getMessage());
@@ -423,7 +437,14 @@ public class Compilador extends javax.swing.JFrame {
             }
             jtaOutputConsole.setText("Compilación terminada...\n" + strErrors + "\nLa compilación terminó con errores...");
         } else {
-            jtaOutputConsole.setText("Compilación terminada...");
+            //Código provicional de contador de rrores
+            if(contadorErrores != 0) {
+                jtaOutputConsole.setText("Compilación terminada con errores");
+            } else {
+                jtaOutputConsole.setText("Compilación terminada sin errores");
+            }
+            //Esto se quita
+            //jtaOutputConsole.setText("Compilación terminada...");
         }
         jtaOutputConsole.setCaretPosition(0);
     }
