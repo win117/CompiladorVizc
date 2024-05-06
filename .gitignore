@@ -5,3 +5,4 @@ src/Lexer.java
 src/LexerColor.java
 nbproject/private/
 dist/
+*~
