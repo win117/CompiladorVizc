@@ -3,3 +3,5 @@ code.encrypter
 color.encrypter
 src/Lexer.java
 src/LexerColor.java
+nbproject/private/
+dist/
